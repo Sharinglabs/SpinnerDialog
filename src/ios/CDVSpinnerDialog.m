@@ -30,8 +30,11 @@
 
 -(CGRect)rectForView {
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    BOOL landscape = (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight);
-    if(landscape){
+    BOOL isLandscapeMode = (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight);
+    BOOL isWidthGreaterThanHeight = [[UIScreen mainScreen]bounds].size.width > [UIScreen mainScreen].bounds.size.height;
+    // If the "isLandscapeMode" and "isWidthGreaterThanHeight" are different, it means they should be switched
+    // (it looks like on some iOS versions - some or all iOS 7? - we need to check that).
+    if(isLandscapeMode != isWidthGreaterThanHeight){
         return CGRectMake( 0.0f, 0.0f, [UIScreen mainScreen].bounds.size.height, [[UIScreen mainScreen]bounds].size.width);
     }
     return CGRectMake( 0.0f, 0.0f, [[UIScreen mainScreen]bounds].size.width, [UIScreen mainScreen].bounds.size.height);
